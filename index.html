@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HCL Restaurant Job Portal</title>
+
+<style>
+body {font-family: Arial; background: #f0f2f5;}
+.container {width: 500px; background: white; padding: 20px; margin: 20px auto; border-radius: 10px; box-shadow: 0 0 10px gray;}
+h2, h3 {text-align:center;}
+input, select {width:100%; padding:8px; margin:5px 0 10px 0;}
+button {width:100%; padding:10px; background:green; color:white; border:none; cursor:pointer;}
+button:hover{background:darkgreen;}
+</style>
+
+<!-- EmailJS Script -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){
+emailjs.init("6hWojEyNES2270YtE");
+})();
+</script>
+
+</head>
+<body>
+
+<div class="container">
+<h2>HCL Restaurant Job Application</h2>
+
+<form id="jobForm" onsubmit="return submitForm(event)">
+
+<h3>Personal Information</h3>
+<input type="text" id="name" placeholder="Candidate Name" required>
+<input type="text" id="father" placeholder="Father Name" required>
+<input type="date" id="dob" placeholder="Date of Birth" required>
+<input type="number" id="age" placeholder="Age (18+)" required>
+<input type="text" id="nationality" placeholder="Nationality" required>
+<input type="text" id="nid" placeholder="National ID Number" required>
+<input type="email" id="email" placeholder="Email" required>
+<input type="text" id="phone" placeholder="+92xxxxxxxxxx" required>
+
+<h3>Country</h3>
+<select id="country" onchange="checkOtherCountry(this)" required>
+<option value="">Select Country</option>
+<option>🇵🇰 Pakistan</option>
+<option>🇻🇳 Vietnam</option>
+<option>🇮🇳 India</option>
+<option>🇵🇭 Philippines</option>
+<option>🇮🇩 Indonesia</option>
+<option>🇮🇹 Italy</option>
+<option>🇫🇷 France</option>
+<option>🇩🇪 Germany</option>
+<option>🇨🇳 China</option>
+<option>🇹🇼 Taiwan</option>
+<option>🇦🇺 Australia</option>
+<option>🇦🇹 Austria</option>
+<option>🇹🇭 Thailand</option>
+<option value="other">Other</option>
+</select>
+<input type="text" id="otherCountry" placeholder="Enter your country" style="display:none;">
+
+<h3>Job Position</h3>
+<select id="job" required>
+<option value="">Select Job</option>
+<option>Chief</option>
+<option>Assistant Manager</option>
+<option>Supervisor</option>
+<option>Assistant Chief</option>
+<option>Cleaner</option>
+<option>Crew Member</option>
+<option>Waiter</option>
+<option>Personal Assistant CEO</option>
+<option>Office Worker</option>
+<option>Reservation Staff</option>
+<option>Dish Washer</option>
+</select>
+
+<h3>Passport</h3>
+<select id="passport" onchange="checkPassport(this)" required>
+<option value="">Passport Available?</option>
+<option value="yes">Yes</option>
+<option value="no">No</option>
+</select>
+
+<div id="passportFields" style="display:none;">
+<input type="text" id="passportNo" placeholder="Passport Number">
+<input type="date" id="passportIssue" placeholder="Issue Date">
+<input type="date" id="passportExpiry" placeholder="Expiry Date">
+<input type="file" id="passportFile">
+</div>
+
+<h3>Experience Questions</h3>
+<label>Do you have experience working in a restaurant?</label>
+<select id="q1" required><option value="">Select</option><option>Yes</option><option>No</option></select>
+<label>Can you work under pressure?</label>
+<select id="q2" required><option value="">Select</option><option>Yes</option><option>No</option></select>
+<label>Are you comfortable working in a team?</label>
+<select id="q3" required><option value="">Select</option><option>Yes</option><option>No</option></select>
+<label>Can you work night shifts?</label>
+<select id="q4" required><option value="">Select</option><option>Yes</option><option>No</option></select>
+<label>Are you willing to work on weekends?</label>
+<select id="q5" required><option value="">Select</option><option>Yes</option><option>No</option></select>
+<label>Do you have good communication skills?</label>
+<select id="q6" required><option value="">Select</option><option>Yes</option><option>No</option></select>
+<label>Can you handle difficult customers?</label>
+<select id="q7" required><option value="">Select</option><option>Yes</option><option>No</option></select>
+
+<h3>Documents Upload</h3>
+<label>Upload Education Documents (Max 2MB)</label>
+<input type="file" id="eduFile" required>
+<label>Upload CV (Max 2MB)</label>
+<input type="file" id="cvFile" required>
+<label>Upload Picture (Max 2MB)</label>
+<input type="file" id="picFile" required>
+
+<br>
+<button type="submit">Submit Application</button>
+
+</form>
+</div>
+
+<script>
+function checkOtherCountry(sel){
+document.getElementById("otherCountry").style.display = (sel.value=="other")?"block":"none";
+}
+function checkPassport(sel){
+document.getElementById("passportFields").style.display = (sel.value=="yes")?"block":"none";
+}
+
+function submitForm(e){
+e.preventDefault();
+let age = parseInt(document.getElementById("age").value);
+if(age<18){ alert("Age must be 18+"); return false; }
+
+// Save as Pending in localStorage
+let email = document.getElementById("email").value;
+let dob = document.getElementById("dob").value;
+let phone = document.getElementById("phone").value;
+let key = email+dob+phone;
+localStorage.setItem(key,"Pending");
+
+// Send email using EmailJS
+emailjs.send("service_ckmfm1s","template_v18ub19",{
+candidate_name: document.getElementById("name").value,
+candidate_email: email,
+candidate_phone: phone,
+status:"Pending"
+}).then(function(res){ 
+alert("Application submitted and email sent!"); 
+document.getElementById("jobForm").reset();
+}, function(err){ 
+alert("Email failed"); 
+});
+
+return false;
+}
+</script>
+
+</body>
+</html>
