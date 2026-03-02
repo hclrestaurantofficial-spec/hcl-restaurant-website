@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+<style>
+body{font-family:Arial;text-align:center;background:#f0f0f0;}
+.box{background:white;padding:20px;margin:50px auto;width:400px;}
+</style>
+</head>
+<body>
+
+<div class="box" id="loginBox">
+<h2>Admin Login</h2>
+<input id="username" placeholder="Username"><br><br>
+<input id="password" type="password" placeholder="Password"><br><br>
+<button onclick="login()">Login</button>
+<p id="msg"></p>
+</div>
+
+<div class="box" id="adminBox" style="display:none;">
+<h2>Status Update Panel</h2>
+<input id="email" placeholder="Applicant Email"><br><br>
+<input id="dob" type="date"><br><br>
+<input id="phone" placeholder="Phone"><br><br>
+<select id="status">
+<option>Pending</option>
+<option>Rejected</option>
+<option>Approved</option>
+<option>Interview</option>
+<option>Test</option>
+<option>Offer Letter</option>
+<option>Visa Processing</option>
+</select><br><br>
+<button onclick="saveStatus()">Update Status</button>
+<p id="result"></p>
+</div>
+
+<script>
+const adminUser = "hanry1484";
+const adminPass = "Aht786190";
+
+function login(){
+let u=document.getElementById("username").value;
+let p=document.getElementById("password").value;
+if(u===adminUser && p===adminPass){
+document.getElementById("loginBox").style.display="none";
+document.getElementById("adminBox").style.display="block";
+}else{
+document.getElementById("msg").innerText="Wrong login";
+}
+}
+
+function saveStatus(){
+let email=document.getElementById("email").value;
+let dob=document.getElementById("dob").value;
+let phone=document.getElementById("phone").value;
+let status=document.getElementById("status").value;
+let key=email+dob+phone;
+localStorage.setItem(key,status);
+document.getElementById("result").innerText="Status Updated!";
+}
+</script>
+
+</body>
+</html>
