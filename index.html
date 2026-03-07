@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Speed Star Motors | Paris</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#f5f5f5;
+}
+
+header{
+background:black;
+color:white;
+text-align:center;
+padding:25px;
+}
+
+nav{
+background:#111;
+text-align:center;
+padding:12px;
+}
+
+nav a{
+color:white;
+margin:15px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.hero{
+height:400px;
+background:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
+background-size:cover;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:40px;
+font-weight:bold;
+}
+
+.search{
+text-align:center;
+padding:30px;
+}
+
+select,button{
+padding:10px;
+margin:10px;
+font-size:16px;
+}
+
+.cars{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:40px;
+}
+
+.car{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.car img{
+width:100%;
+border-radius:10px;
+}
+
+.price{
+color:red;
+font-size:22px;
+font-weight:bold;
+}
+
+button{
+background:red;
+color:white;
+border:none;
+cursor:pointer;
+border-radius:5px;
+}
+
+.booking{
+background:white;
+padding:40px;
+max-width:500px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+}
+
+footer{
+background:black;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:40px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Speed Star Motors</h1>
+<p>Luxury Car Showroom | Paris France</p>
+
+</header>
+
+<nav>
+
+<a href="#">Home</a>
+<a href="#cars">Cars</a>
+<a href="#booking">Test Drive</a>
+
+</nav>
+
+<div class="hero">
+
+Premium Cars in Paris
+
+</div>
+
+<div class="search">
+
+<select id="brand">
+
+<option value="all">All Brands</option>
+<option>BMW</option>
+<option>Audi</option>
+<option>Mercedes</option>
+<option>Porsche</option>
+<option>Tesla</option>
+
+</select>
+
+<select id="price">
+
+<option value="all">All Prices</option>
+<option value="50000">Under €50,000</option>
+<option value="70000">Under €70,000</option>
+<option value="100000">Under €100,000</option>
+
+</select>
+
+<button onclick="filterCars()">Search</button>
+
+</div>
+
+<div class="cars" id="carList"></div>
+
+<div id="booking" class="booking">
+
+<h2>Book Test Drive</h2>
+
+<form>
+
+<input type="text" placeholder="Your Name" required>
+
+<input type="email" placeholder="Email" required>
+
+<select>
+
+<option>Select Car</option>
+<option>BMW M4</option>
+<option>Audi RS5</option>
+<option>Mercedes C-Class</option>
+<option>Porsche 911</option>
+<option>Tesla Model S</option>
+
+</select>
+
+<input type="date" required>
+
+<button type="submit">Book Test Drive</button>
+
+</form>
+
+</div>
+
+<footer>
+
+© 2026 Speed Star Motors | Paris
+
+</footer>
+
+<script>
+
+const cars=[
+
+{name:"BMW M4",brand:"BMW",price:72000,img:"https://images.unsplash.com/photo-1552519507-da3b142c6e3d"},
+
+{name:"Audi RS5",brand:"Audi",price:68000,img:"https://images.unsplash.com/photo-1549921296-3c7e6b4f9a3d"},
+
+{name:"Mercedes C-Class",brand:"Mercedes",price:55000,img:"https://images.unsplash.com/photo-1502877338535-766e1452684a"},
+
+{name:"Porsche 911",brand:"Porsche",price:120000,img:"https://images.unsplash.com/photo-1549399542-7e821f8a5ab3"},
+
+{name:"Tesla Model S",brand:"Tesla",price:90000,img:"https://images.unsplash.com/photo-1511919884226-fd3cad34687c"},
+
+{name:"BMW X5",brand:"BMW",price:65000,img:"https://images.unsplash.com/photo-1519641471654-76ce0107ad1b"},
+
+{name:"Audi A7",brand:"Audi",price:62000,img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70"},
+
+{name:"Mercedes GLC",brand:"Mercedes",price:58000,img:"https://images.unsplash.com/photo-1493238792000-8113da705763"},
+
+{name:"Porsche Cayenne",brand:"Porsche",price:95000,img:"https://images.unsplash.com/photo-1504215680853-026ed2a45def"},
+
+{name:"Tesla Model 3",brand:"Tesla",price:48000,img:"https://images.unsplash.com/photo-1517949908110-72a6e1d13e5b"}
+
+];
+
+function showCars(list){
+
+let html="";
+
+list.forEach(car=>{
+
+html+=`
+
+<div class="car">
+
+<img src="${car.img}">
+
+<h3>${car.name}</h3>
+
+<p class="price">€${car.price}</p>
+
+<button>View Details</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("carList").innerHTML=html;
+
+}
+
+showCars(cars);
+
+function filterCars(){
+
+let brand=document.getElementById("brand").value;
+
+let price=document.getElementById("price").value;
+
+let filtered=cars.filter(car=>{
+
+let brandMatch=(brand=="all"||car.brand==brand);
+
+let priceMatch=(price=="all"||car.price<=price);
+
+return brandMatch && priceMatch;
+
+});
+
+showCars(filtered);
+
+}
+
+</script>
+
+</body>
+  </html>
