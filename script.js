@@ -2,7 +2,7 @@ const DEMO_PIN = "1234";
 
 let transferType = "";
 let selectedBank = "";
-let currentBalance = 89221;
+let currentBalance = 91542;
 
 /* BANK LISTS */
 
